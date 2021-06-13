@@ -8,9 +8,6 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFont
 from PyQt5.QtWidgets import *
 # from PyQt5.uic import uiparser
 
-# uiparser.WidgetStack.topIsLayoutWidget = lambda self: False
-Ui_Interface, _ = uic.loadUiType('MAIN.ui')
-
 ## ==> MAIN WINDOW
 from ui_MainWindow import Ui_MainWindow
 
@@ -32,14 +29,23 @@ from ui_PaymentMethod import Ui_PaymentMethod
 ## ==> RESERVATION RECORD
 from ui_ReservationRecord import Ui_ReservationRecord
 
-if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
-    PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+## ==> ROOM INFO
+from ui_RoomInfo import Ui_RoomInfo
 
-if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
-    PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+## ==> SIGN IN
+from ui_user import Ui_AdminSignIn
+
+## ==> EDIT INVENTORY
+from ui_EditInventory import Ui_EditInventory
+
+## Set options for Laptops or other monitors that need high DPI scaling
+# if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+#     PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+
+# if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+#     PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
 ## ==> GLOBALS
-
 
 # YOUR MAIN APPLICATION
 class MainWindow(QMainWindow):
@@ -55,9 +61,8 @@ class MainWindow(QMainWindow):
         ## Button Clicks
         self.ui.btnExit.clicked.connect(self.exitButton)
         self.ui.btnBooking.clicked.connect(self.TandC)
-        
-        ## Button Icon - Doesnt work for some reason
-        self.ui.QuestionButton.setIcon(QIcon("url(:/images/images/question-mark-inside-a-circle.png)"))
+        self.ui.btnRoom.clicked.connect(self.RoomInfo)
+        self.ui.btnAdmin.clicked.connect(self.SignIn)
         
         ## Show Window
         self.show()
@@ -69,7 +74,17 @@ class MainWindow(QMainWindow):
         self.TandC = TandC(parent=self)
         self.TandC.show()
         self.hide()
+    
+    def RoomInfo(self):
+        self.RoomInfo = RoomInfo(parent=self)
+        self.RoomInfo.show()
+        self.hide()
+    
+    def SignIn(self):
+        self.AdminSignIn = AdminSignIn(parent=self)
+        self.AdminSignIn.show()
         
+    
 # TERMS AND CONDITIONS
 class TandC(QMainWindow, Ui_MainWindow):
     def __init__(self,parent):
@@ -123,18 +138,17 @@ class HotelBooking(QMainWindow):
 
     ## ==> APP FUNCTIONS
     ########################################################################
+    # YES
     def accept(self):
         # TODO Start working here
         self.AreYouSure = AreYouSure(parent=self)
         self.AreYouSure.show()
-        
+    
+    # NO
     def reject(self):
         self.CancelYesNo = CancelYesNo(parent=self)
         self.CancelYesNo.show()
         # self.close()
-
-    def closeWindow(self):
-        self.close()
 
 class AreYouSure(QMainWindow, Ui_HotelBooking):
     def __init__(self, parent):
@@ -233,6 +247,53 @@ class ReservationRecord(QMainWindow, Ui_HotelBooking):
         self.main = MainWindow()
         self.main.show()
         self.close()
+        
+class RoomInfo(QMainWindow, Ui_MainWindow):
+    def __init__(self, parent):
+        QMainWindow.__init__(self)
+        self.ui = Ui_RoomInfo()
+        self.ui.setupUi(self)
+        self.parent = parent
+        
+        ## REMOVE TITLE BAR
+        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.ui.buttonBox.rejected.connect(self.closeInfo)
+
+    def closeInfo(self):
+        self.parent.show()
+        self.close()  
+        
+class AdminSignIn(QMainWindow, Ui_MainWindow):
+    def __init__(self, parent):
+        QMainWindow.__init__(self)
+        self.ui = Ui_AdminSignIn()
+        self.ui.setupUi(self)
+        self.parent=parent
+        
+        ## REMOVE TITLE BAR
+        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        
+        ## BUTTON CLICKS
+        self.ui.btnLogin.clicked.connect(self.login)
+        
+    def login(self):
+        self.EditInventory = EditInventory()
+        self.EditInventory.show()
+        self.parent.close()
+        self.close()
+        
+class EditInventory(QMainWindow):
+    def __init__(self):
+        QMainWindow.__init__(self)
+        self.ui = Ui_EditInventory()
+        self.ui.setupUi(self)
+        
+        ## REMOVE TITLE BAR
+        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        # self.ui.buttonBox.rejected.connect(self.closeInfo)
         
 if __name__ == "__main__":
     app = QApplication(sys.argv)
