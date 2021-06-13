@@ -83,7 +83,15 @@ class MainWindow(QMainWindow):
     def SignIn(self):
         self.AdminSignIn = AdminSignIn(parent=self)
         self.AdminSignIn.show()
-        
+    
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
     
 # TERMS AND CONDITIONS
 class TandC(QMainWindow, Ui_MainWindow):
@@ -116,6 +124,15 @@ class TandC(QMainWindow, Ui_MainWindow):
     def reject(self):
         self.parent.show()
         self.close()
+
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
         
 
 class HotelBooking(QMainWindow):
@@ -150,6 +167,16 @@ class HotelBooking(QMainWindow):
         self.CancelYesNo.show()
         # self.close()
 
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
+
+
 class AreYouSure(QMainWindow, Ui_HotelBooking):
     def __init__(self, parent):
         QMainWindow.__init__(self)
@@ -176,6 +203,15 @@ class AreYouSure(QMainWindow, Ui_HotelBooking):
         
     def reject(self):
         self.close()
+        
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
 
 class CancelYesNo(QMainWindow, Ui_HotelBooking):
     def __init__(self, parent):
@@ -202,6 +238,15 @@ class CancelYesNo(QMainWindow, Ui_HotelBooking):
     def reject(self):
         self.close()
 
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
+
 class PaymentMethod(QMainWindow, Ui_HotelBooking):
     def __init__(self,parent):
         QMainWindow.__init__(self)
@@ -226,6 +271,15 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
     def exit(self):
         self.CancelYesNo = CancelYesNo(parent=self)
         self.CancelYesNo.show()
+        
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
 
 class ReservationRecord(QMainWindow, Ui_HotelBooking):
     def __init__(self,parent):
@@ -247,6 +301,16 @@ class ReservationRecord(QMainWindow, Ui_HotelBooking):
         self.main = MainWindow()
         self.main.show()
         self.close()
+
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
+
         
 class RoomInfo(QMainWindow, Ui_MainWindow):
     def __init__(self, parent):
@@ -263,7 +327,17 @@ class RoomInfo(QMainWindow, Ui_MainWindow):
     def closeInfo(self):
         self.parent.show()
         self.close()  
-        
+    
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
+
+    
 class AdminSignIn(QMainWindow, Ui_MainWindow):
     def __init__(self, parent):
         QMainWindow.__init__(self)
@@ -283,7 +357,17 @@ class AdminSignIn(QMainWindow, Ui_MainWindow):
         self.EditInventory.show()
         self.parent.close()
         self.close()
-        
+    
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
+
+    
 class EditInventory(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
@@ -294,7 +378,17 @@ class EditInventory(QMainWindow):
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         # self.ui.buttonBox.rejected.connect(self.closeInfo)
-        
+    
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
+
+    
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
