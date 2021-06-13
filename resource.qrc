@@ -1,0 +1,10 @@
+<RCC>
+  <qresource prefix="images">
+    <file>images/question-mark-inside-a-circle.png</file>
+    <file>images/118949675_769630300470107_6445564834467826971_n.jpg</file>
+    <file>images/192077101_444865813916608_8590922805798504213_n.jpg</file>
+    <file>images/197106241_971084893703044_7335483416753745947_n.jpg</file>
+    <file>images/download.jpg</file>
+    <file>images/images.jpg</file>
+  </qresource>
+</RCC>
