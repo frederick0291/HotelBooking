@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'userszFpqH.ui'
+## Form generated from reading UI file 'userswSunw.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.14.1
 ##
@@ -208,6 +208,7 @@ class Ui_AdminSignIn(object):
         self.txtPass = QLineEdit(self.centralwidget)
         self.txtPass.setObjectName(u"txtPass")
         self.txtPass.setGeometry(QRect(150, 180, 251, 21))
+        self.txtPass.setEchoMode(QLineEdit.Password)
         self.btnLogin = QPushButton(self.centralwidget)
         self.btnLogin.setObjectName(u"btnLogin")
         self.btnLogin.setGeometry(QRect(170, 240, 101, 41))

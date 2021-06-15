@@ -33,17 +33,21 @@ from ui_ReservationRecord import Ui_ReservationRecord
 from ui_RoomInfo import Ui_RoomInfo
 
 ## ==> SIGN IN
-from ui_user import Ui_AdminSignIn
+from ui_AdminSignIn import Ui_AdminSignIn
 
 ## ==> EDIT INVENTORY
 from ui_EditInventory import Ui_EditInventory
 
 ## Set options for Laptops or other monitors that need high DPI scaling
-# if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
-#     PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+## Source: https://stackoverflow.com/questions/57527705/qt-designer-using-high-resolution-need-low-resolution-version
+## Or just disable the custom scaling in windows setting.
 
-# if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
-#     PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
+    PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling, True)
+
+if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
+    PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
+
 
 ## ==> GLOBALS
 
@@ -296,6 +300,24 @@ class ReservationRecord(QMainWindow, Ui_HotelBooking):
         ########################################################################        
         # self.ui.buttonBox.accepted.connect(self.accept)
         self.ui.buttonBox.rejected.connect(self.reject)
+        
+        # Access the parent's UI to get the name of the customer in the line edit
+        # The parent's UI is still accessible since we only used hide() not close() to the hotelbooking object
+        # self.parent is the HotelBooking() we created on line 124 
+        customer_name = self.parent.ui.txtName.text()
+        date_in = self.parent.ui.deIn.date()
+        # convert the pyqt date to normal python date then convert the python date to string
+        date_in = date_in.toPyDate()
+        date_in = str(date_in)
+        # get the time in from the parent UI
+        time_in = self.parent.ui.teIn.time()
+        # convert the pyqt time to normal string
+        time_in = time_in.toString()
+        
+        print(date_in + " " + time_in)
+        # set the customer name and the time and date on the reservation record UI      
+        self.ui.customerName.setText(customer_name)
+        self.ui.timeAndDate.setText(date_in + " " + time_in)
     
     def reject(self):
         self.main = MainWindow()
@@ -319,12 +341,36 @@ class RoomInfo(QMainWindow, Ui_MainWindow):
         self.ui.setupUi(self)
         self.parent = parent
         
+        ## READ THE INCLUSIONS OF EACH ROOM BASED ON TEXT FILE
+        with open("Room_A.txt", "r") as RoomADetails:
+            RoomA = RoomADetails.readlines()
+        with open("Room_B.txt", "r") as RoomBDetails:
+            RoomB = RoomBDetails.readlines()        
+        with open("Room_C.txt", "r") as RoomCDetails:
+            RoomC = RoomCDetails.readlines()
+        with open("Room_D.txt", "r") as RoomDDetails:
+            RoomD = RoomDDetails.readlines()
+        
+        ## SET THE INCLUSIONS OF EACH ROOM TO THE LIST WIDGET
+        for inclusion in RoomA:
+            self.ui.roomAText.append(inclusion)
+        
+        for inclusion in RoomB:
+            self.ui.roomBText.append(inclusion)
+            
+        for inclusion in RoomC:
+            self.ui.roomCText.append(inclusion)        
+        
+        for inclusion in RoomD:
+            self.ui.roomDText.append(inclusion)        
+        
         ## REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.ui.buttonBox.rejected.connect(self.closeInfo)
 
     def closeInfo(self):
+        # re-show the parent Ui_MainWindow then close the Roominfo GUI 
         self.parent.show()
         self.close()  
     
@@ -353,10 +399,15 @@ class AdminSignIn(QMainWindow, Ui_MainWindow):
         self.ui.btnLogin.clicked.connect(self.login)
         
     def login(self):
-        self.EditInventory = EditInventory()
-        self.EditInventory.show()
-        self.parent.close()
-        self.close()
+        # Check if username and password are correct before allowing user to enter as admin
+        # Echomode for txtPass was set to Password to hide the password as we type
+        if self.ui.txtUser.text() == "Admin" and self.ui.txtPass.text() == "AdminLuna":
+            self.EditInventory = EditInventory()
+            self.EditInventory.show()
+            self.parent.close()
+            self.close()
+        else:
+            pass
     
     ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
     def mousePressEvent(self, event):
@@ -377,7 +428,20 @@ class EditInventory(QMainWindow):
         ## REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
-        # self.ui.buttonBox.rejected.connect(self.closeInfo)
+        
+        # Button presses
+        self.ui.btnBack.clicked.connect(self.back)
+        self.ui.btnEditRoomInfo.clicked.connect(self.editRoomInfo)
+    
+    # Button Functions
+    def back(self):
+        # if we click back go and open up the main window again
+        self.main = MainWindow()
+        self.main.show()
+        self.close()
+    
+    def editRoomInfo(self):
+        pass
     
     ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
     def mousePressEvent(self, event):

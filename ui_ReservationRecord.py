@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'recordYIomDB.ui'
+## Form generated from reading UI file 'recordCuuNkz.ui'
 ##
 ## Created by: Qt User Interface Compiler version 5.14.1
 ##
@@ -331,6 +331,23 @@ class Ui_ReservationRecord(object):
         font4 = QFont()
         font4.setPointSize(8)
         self.label_9.setFont(font4)
+        self.customerName = QLabel(ReservationRecord)
+        self.customerName.setObjectName(u"customerName")
+        self.customerName.setGeometry(QRect(100, 160, 151, 16))
+        self.customerName.setWordWrap(True)
+        self.timeAndDate = QLabel(ReservationRecord)
+        self.timeAndDate.setObjectName(u"timeAndDate")
+        self.timeAndDate.setGeometry(QRect(330, 160, 121, 16))
+        self.timeAndDate.setWordWrap(True)
+        self.reservationStatus = QLabel(ReservationRecord)
+        self.reservationStatus.setObjectName(u"reservationStatus")
+        self.reservationStatus.setGeometry(QRect(550, 160, 61, 16))
+        font5 = QFont()
+        font5.setBold(True)
+        font5.setUnderline(True)
+        font5.setWeight(75)
+        self.reservationStatus.setFont(font5)
+        self.reservationStatus.setWordWrap(True)
         self.label_7.raise_()
         self.label_8.raise_()
         self.buttonBox.raise_()
@@ -342,6 +359,9 @@ class Ui_ReservationRecord(object):
         self.label_6.raise_()
         self.label.raise_()
         self.label_9.raise_()
+        self.customerName.raise_()
+        self.timeAndDate.raise_()
+        self.reservationStatus.raise_()
 
         self.retranslateUi(ReservationRecord)
         # self.buttonBox.accepted.connect(ReservationRecord.accept)
@@ -361,5 +381,8 @@ class Ui_ReservationRecord(object):
         self.label_8.setText(QCoreApplication.translate("ReservationRecord", u"TextLabel", None))
         self.label.setText(QCoreApplication.translate("ReservationRecord", u"H O T E L   D E L   L U N A", None))
         self.label_9.setText(QCoreApplication.translate("ReservationRecord", u"A   P L A C E   L I K E    H O M E", None))
+        self.customerName.setText(QCoreApplication.translate("ReservationRecord", u"Name", None))
+        self.timeAndDate.setText(QCoreApplication.translate("ReservationRecord", u"Time and Date", None))
+        self.reservationStatus.setText(QCoreApplication.translate("ReservationRecord", u"Reserved", None))
     # retranslateUi
 

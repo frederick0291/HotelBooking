@@ -1,0 +1,185 @@
+* Main Window - MAIN WINDOW
+
+W E L C O M E   T O   H O T E L   D E L   L U N A
+ O n l i n e   H o t e l   R e s e r v a t i o n
+      A   P L A C E   L I K E    H O M E
+
+* Push button 
+o HOTEL BOOKING (btnBooking)
+o ROOM INFOS (btnRoom)
+o EXIT (btnExit)
+
+
+(If the user clicked Hotel Booking)
+
+* Dialog Box - TERMS-AND-CONDITION
+
+(If the user clicked button YES the program will open the next Dialog Box - booking)
+(If the user clicked button NO the program will end)
+
+* Dialog Box - booking
+* Personal Information Group Box
+
+Name: (txtName)
+Address: (txtAddress)
+Contact No.:(txtContact)
+No. of Pax: (txtPax)
+
+* Date & Time Group Box
+* Date & Time Edit 
+
+Check-In Date: (deIn)
+Check-In Time: (teIn)
+
+Check-Out Date: (deOut)
+Check-Out Time: (teOut)
+
+* Amenities Group Box
+* Checkbox
+- Pool [Php 150]    (cbPool)
+- Bar [Php 350]     (cbBar) 
+- Jakuzzi [Php 200] (cbJakuzzi)
+- Spa [Php 250]     (cbSpa)
+- Library [Php 100] (cbLibrary)
+- Gym [Php 150]     (cbGym)
+
+- Buffet A - Seafoods [Php 800]        (cbA)
+- Buffet B - Pinoy food [Php 850]      (cbB)
+- Buffet C - Korean food [Php 850]     (cbC)
+- Buffet D - Chinese food [Php 800]    (cbD)
+- Buffet E - Mexican food [Php 800]    (cbE)
+- Buffet A - Italian Cuisine [Php 900] (cbF)
+
+* Room Types Group Box
+* Combo Box
+RM A - (cmbA)
+RM B - (cmbB)
+RM C - (cmbC)
+RM D - (cmbD)
+
+* Radio button 
+A - (rbA)
+B - (rbB)
+C - (rbC)
+D - (rbD)
+
+(If the user clicked button Save All the program will open the next Dialog Box - ARE-YOU-SURE)
+(If the user clicked button Cancel the program will open again the Dialog Box - CANCEL-YES-NO )
+
+* Dialog Box - CANCEL-YES-NO
+(If the user clicked button Yes the program will open the Main Window)
+(If the user clicked button No the program will open again the Dialog Box - booking )
+
+* Dialog Box - ARE-YOU-SURE
+(If the user clicked button Save All the program will open the next Dialog Box - PAYMENT-METHOD)
+
+* Radio Button 
+o Bank Transfer (rbCard)
+o E-Wallet	(rbEwallet)
+o Cash		(rbCash)
+
+* Push Button
+PROCEED (btnContinue)
+
+(If the user clicked button Continue the program will open the next Dialog Box - RESERVATION-RECORD)
+(If the user clicked button Exit the program will open the next Dialog Box - CANCEL-YES-NO)
+
+* Dialog Box - CANCEL-YES-NO
+(If the user clicked button Yes the program will open the Main Window)
+(If the user clicked button No the program will open again the Dialog Box - booking )
+
+* Dialog Box - RESERVATION-RECORD
+*Button 
+Close
+
+(If the user clicked button Close the program will go back to the Main Window)
+
+* Main Window - MAIN WINDOW
+
+W E L C O M E   T O   H O T E L   D E L   L U N A
+ O n l i n e   H o t e l   R e s e r v a t i o n
+      A   P L A C E   L I K E    H O M E
+
+* Radio button 
+o HOTEL BOOKING (rbBooking)
+o ROOM INFOS (rbRoomInfo)
+o EXIT (rbExit)
+
+* Push Button
+SUBMIT (btnSubmit)
+
+(If the user clicked Room Infos and then press Submit)
+
+* Dialog Box - ROOM-INFORMATION
+* Button 
+Close
+
+(If the user clicked button Close the program will go back to the Main Window)
+
+* Main Window - MAIN WINDOW
+
+W E L C O M E   T O   H O T E L   D E L   L U N A
+ O n l i n e   H o t e l   R e s e r v a t i o n
+      A   P L A C E   L I K E    H O M E
+
+* Radio button 
+o HOTEL BOOKING (rbBooking)
+o ROOM INFOS (rbRoomInfo)
+o EXIT (rbExit)
+
+* Push Button
+SUBMIT (btnSubmit)
+
+(If the user clicked Exit and then press Submit the program will terminate)
+
+
+SPECIAL INSTRUCTIONS:
+# ALL THE BUTTON GROUPS ARE NOT YET NAMED 
+
+
+INVENTORY ----------------
+
+*USER LOG IN WINDOW
+
+User: (txtUser)
+Password: (txtPass)
+
+* Push Button
+Log - in: (btnLogin)
+
+
+
+* MAIN WINDOW 
+* Customer Information Groupbox
+
+Name: (txtIname)
+Address: (txtIadd)
+CP#: (txtIcp)
+
+* Push Button
+Save (btnSave)
+
+*Table
+Table: (tblCustomer)
+
+* Push Button
+Delete: (btnDelete)
+View Profile: (btnProfile)
+
+* Search Customer Groupbox
+Enter Name: (txtSearch)
+Search: (btnSearch)
+View All: (btnView)
+
+
+* Customer Profile Groupbox
+Customer No.: (txtNo)
+Name: (txtNameP)
+Address: (txtAddressP)
+CP#: (txtContactP)
+
+* Push Button
+Update Info: (btnUpdate)
+
+
+
