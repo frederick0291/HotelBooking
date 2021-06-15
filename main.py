@@ -78,6 +78,8 @@ class MainWindow(QMainWindow):
         self.close()
         
     def TandC(self):
+        # NOTE: Setting parent and child windows. 
+        # Source: https://stackoverflow.com/questions/52493439/access-data-from-the-parent-window-in-a-child-window-in-pyqt
         self.TandC = TandC(parent=self)
         self.TandC.show()
         self.hide()
@@ -92,6 +94,7 @@ class MainWindow(QMainWindow):
         self.AdminSignIn.show()
     
     ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    # SOURCE: https://stackoverflow.com/questions/37718329/pyqt5-draggable-frameless-window
     def mousePressEvent(self, event):
         self.oldPos = event.globalPos()
 
@@ -101,6 +104,8 @@ class MainWindow(QMainWindow):
         self.oldPos = event.globalPos()
     
 # TERMS AND CONDITIONS
+# NOTE: Setting parent and child windows. 
+# Source: https://stackoverflow.com/questions/52493439/access-data-from-the-parent-window-in-a-child-window-in-pyqt
 class TandC(QMainWindow, Ui_MainWindow):
     def __init__(self,parent):
         QMainWindow.__init__(self)
@@ -490,6 +495,8 @@ class EditRoomInfo(QMainWindow, Ui_EditInventory):
         ## REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        
+        ## BUTTON CLICKS
         self.ui.buttonBox.rejected.connect(self.closeInfo)
         self.ui.buttonBox.accepted.connect(self.saveInfo)
 
