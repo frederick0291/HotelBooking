@@ -62,10 +62,12 @@ class MainWindow(QMainWindow):
         self.ui.setupUi(self)
         
         ## REMOVE TITLE BAR
+        ## Source: https://stackoverflow.com/questions/7021502/pyqt-remove-the-programs-title-bar
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         
         ## Button Clicks
+        ## Source: https://stackoverflow.com/questions/53225320/open-a-new-window-when-the-button-is-clicked-pyqt5
         self.ui.btnExit.clicked.connect(self.exitButton)
         self.ui.btnBooking.clicked.connect(self.TandC)
         self.ui.btnRoom.clicked.connect(self.RoomInfo)
@@ -350,6 +352,7 @@ class RoomInfo(QMainWindow, Ui_MainWindow):
         self.parent = parent
         
         ## READ THE INCLUSIONS OF EACH ROOM BASED ON TEXT FILE
+        ## SOURCE: https://www.pythonforbeginners.com/files/with-statement-in-python
         with open("Room_A.txt", "r") as RoomADetails:
             RoomA = RoomADetails.readlines()
         with open("Room_B.txt", "r") as RoomBDetails:
@@ -359,7 +362,9 @@ class RoomInfo(QMainWindow, Ui_MainWindow):
         with open("Room_D.txt", "r") as RoomDDetails:
             RoomD = RoomDDetails.readlines()
         
-        ## SET THE INCLUSIONS OF EACH ROOM TO THE LIST WIDGET
+        ## SET THE INCLUSIONS OF EACH ROOM TO THE TEXT BROWSER
+        ## Source: https://stackoverflow.com/questions/7771164/add-more-than-one-line-to-a-qtextedit-pyqt
+        ## For Loop
         for inclusion in RoomA:
             self.ui.roomAText.append(inclusion)
         
@@ -375,6 +380,8 @@ class RoomInfo(QMainWindow, Ui_MainWindow):
         ## REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        
+        ## BUTTON CLICKS
         self.ui.buttonBox.rejected.connect(self.closeInfo)
 
     def closeInfo(self):
@@ -505,7 +512,8 @@ class EditRoomInfo(QMainWindow, Ui_EditInventory):
         self.close()  
     
     def saveInfo(self):
-        # NOTE: OVERWRITE TEXT FILE HERE
+        # TODO: ADD LOGIC TO OVERWRITE TEXT FILE HERE
+        # Source: https://stackoverflow.com/questions/2424000/read-and-overwrite-a-file-in-python
         self.parent.show()
         self.close()
         
