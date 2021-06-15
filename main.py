@@ -38,6 +38,9 @@ from ui_AdminSignIn import Ui_AdminSignIn
 ## ==> EDIT INVENTORY
 from ui_EditInventory import Ui_EditInventory
 
+## ==> EDIT ROOM INFO
+from ui_EditRoomInfo import Ui_EditRoomInfo
+
 ## Set options for Laptops or other monitors that need high DPI scaling
 ## Source: https://stackoverflow.com/questions/57527705/qt-designer-using-high-resolution-need-low-resolution-version
 ## Or just disable the custom scaling in windows setting.
@@ -431,7 +434,7 @@ class EditInventory(QMainWindow):
         
         # Button presses
         self.ui.btnBack.clicked.connect(self.back)
-        self.ui.btnEditRoomInfo.clicked.connect(self.editRoomInfo)
+        self.ui.btnEditRoomInfo.clicked.connect(self.gotoEditRoomInfo)
     
     # Button Functions
     def back(self):
@@ -440,8 +443,10 @@ class EditInventory(QMainWindow):
         self.main.show()
         self.close()
     
-    def editRoomInfo(self):
-        pass
+    def gotoEditRoomInfo(self):
+        self.EditRoomInfo = EditRoomInfo(parent=self)
+        self.EditRoomInfo.show()
+        self.hide()
     
     ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
     def mousePressEvent(self, event):
@@ -452,6 +457,61 @@ class EditInventory(QMainWindow):
         self.move(self.x() + delta.x(), self.y() + delta.y())
         self.oldPos = event.globalPos()
 
+class EditRoomInfo(QMainWindow, Ui_EditInventory):
+    def __init__(self, parent):
+        QMainWindow.__init__(self)
+        self.ui = Ui_EditRoomInfo()
+        self.ui.setupUi(self)
+        self.parent = parent
+        
+        ## READ THE INCLUSIONS OF EACH ROOM BASED ON TEXT FILE
+        with open("Room_A.txt", "r") as RoomADetails:
+            RoomA = RoomADetails.readlines()
+        with open("Room_B.txt", "r") as RoomBDetails:
+            RoomB = RoomBDetails.readlines()        
+        with open("Room_C.txt", "r") as RoomCDetails:
+            RoomC = RoomCDetails.readlines()
+        with open("Room_D.txt", "r") as RoomDDetails:
+            RoomD = RoomDDetails.readlines()
+        
+        ## SET THE INCLUSIONS OF EACH ROOM TO THE LIST WIDGET
+        for inclusion in RoomA:
+            self.ui.roomAText.append(inclusion)
+        
+        for inclusion in RoomB:
+            self.ui.roomBText.append(inclusion)
+            
+        for inclusion in RoomC:
+            self.ui.roomCText.append(inclusion)        
+        
+        for inclusion in RoomD:
+            self.ui.roomDText.append(inclusion)        
+        
+        ## REMOVE TITLE BAR
+        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        self.ui.buttonBox.rejected.connect(self.closeInfo)
+        self.ui.buttonBox.accepted.connect(self.saveInfo)
+
+    def closeInfo(self):
+        self.parent.show()
+        self.close()  
+    
+    def saveInfo(self):
+        # NOTE: OVERWRITE TEXT FILE HERE
+        self.parent.show()
+        self.close()
+        
+    ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
+    def mousePressEvent(self, event):
+        self.oldPos = event.globalPos()
+
+    def mouseMoveEvent(self, event):
+        delta = QPoint (event.globalPos() - self.oldPos)
+        self.move(self.x() + delta.x(), self.y() + delta.y())
+        self.oldPos = event.globalPos()
+
+    
     
 if __name__ == "__main__":
     app = QApplication(sys.argv)
