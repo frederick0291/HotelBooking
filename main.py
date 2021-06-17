@@ -584,15 +584,19 @@ class EditRoomInfo(QMainWindow, Ui_EditInventory):
         
         ## SET THE INCLUSIONS OF EACH ROOM TO THE LIST WIDGET
         for inclusion in RoomA:
+            inclusion = inclusion.replace("\n", "")
             self.ui.roomAText.append(inclusion)
         
         for inclusion in RoomB:
+            inclusion = inclusion.replace("\n", "")
             self.ui.roomBText.append(inclusion)
             
         for inclusion in RoomC:
+            inclusion = inclusion.replace("\n", "")
             self.ui.roomCText.append(inclusion)        
         
         for inclusion in RoomD:
+            inclusion = inclusion.replace("\n", "")
             self.ui.roomDText.append(inclusion)        
         
         ## REMOVE TITLE BAR
