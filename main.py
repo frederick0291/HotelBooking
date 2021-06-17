@@ -614,6 +614,25 @@ class EditRoomInfo(QMainWindow, Ui_EditInventory):
     def saveInfo(self):
         # TODO: ADD LOGIC TO OVERWRITE TEXT FILE HERE
         # Source: https://stackoverflow.com/questions/2424000/read-and-overwrite-a-file-in-python
+        # Get the text from the text boxes
+        # Source: https://stackoverflow.com/questions/24035660/how-to-read-from-qtextedit-in-python
+        roomADetails = self.ui.roomAText.toPlainText()
+        roomBDetails = self.ui.roomBText.toPlainText()
+        roomCDetails = self.ui.roomCText.toPlainText()
+        roomDDetails = self.ui.roomDText.toPlainText()
+        # Then save the text to the text files so the contents will change the next time it loads the GUI
+        # The variables look similar but they are not due to capitalization
+        # RoomADetails is the open file 
+        # roomADetails is the string variable
+        with open("Room_A.txt", "w") as RoomADetails:
+            RoomADetails.writelines(roomADetails)
+        with open("Room_B.txt", "w") as RoomBDetails:
+            RoomBDetails.writelines(roomBDetails)     
+        with open("Room_C.txt", "w") as RoomCDetails:
+            RoomCDetails.writelines(roomCDetails)
+        with open("Room_D.txt", "w") as RoomDDetails:
+            RoomDDetails.writelines(roomDDetails)
+        
         self.parent.show()
         self.close()
         
