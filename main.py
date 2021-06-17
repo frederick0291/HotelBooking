@@ -154,8 +154,38 @@ class HotelBooking(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_HotelBooking()
         self.ui.setupUi(self)
+        
         ## UI ==> INTERFACE CODES
         ########################################################################
+        ## Add choices to combo boxes
+        ## First we read the text files to get the choices
+        with open("Available_Room_A.txt", "r") as RoomADetails:
+            RoomA = RoomADetails.readlines()
+        with open("Available_Room_B.txt", "r") as RoomBDetails:
+            RoomB = RoomBDetails.readlines()
+        with open("Available_Room_C.txt", "r") as RoomCDetails:
+            RoomC = RoomCDetails.readlines()
+        with open("Available_Room_D.txt", "r") as RoomDDetails:
+            RoomD = RoomDDetails.readlines()        
+            
+        ## SET THE AVAILABLE ROOMS TO EACH COMBO BOX
+        ## Source: https://stackoverflow.com/questions/35142276/how-can-i-add-item-data-to-qcombobox-from-qt-designer-ui-file
+        ## For Loop the room variables
+        for room in RoomA:
+            # remove the \n character in the "room" string to avoid display issues in the combo box
+            # source: https://www.kite.com/python/answers/how-to-remove-all-line-breaks-from-a-string-in-python
+            room = room.replace("\n", "")
+            self.ui.cmbA.addItem(room)
+        for room in RoomB:
+            room = room.replace("\n", "")
+            self.ui.cmbB.addItem(room)
+        for room in RoomC:
+            room = room.replace("\n", "")
+            self.ui.cmbC.addItem(room)    
+        for room in RoomD:
+            room = room.replace("\n", "")
+            self.ui.cmbD.addItem(room)      
+        
 
         ## REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
@@ -210,9 +240,11 @@ class AreYouSure(QMainWindow, Ui_HotelBooking):
     def accept(self):
         # Hide the parent since we need the data from there
         self.parent.hide()
+
+        # OPEN Payment here
         self.PaymentMethod = PaymentMethod(parent=self.parent)
         self.PaymentMethod.show()
-        # OPEN Payment here
+        
         self.close()
         
     def reject(self):
@@ -280,6 +312,65 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
     def cont(self):
         self.ReservationRecord = ReservationRecord(parent=self.parent)
         self.ReservationRecord.show()
+        
+        # RESERVE THE ROOM AND REMOVE IT FROM THE CHOICES
+        # First we check which radio button was checked
+        # Source: https://www.geeksforgeeks.org/pyqt5-find-if-radio-button-is-checked/
+        if self.parent.ui.rbA.isChecked():
+            # get the room name from the combobox
+            # Source: https://stackoverflow.com/questions/2056915/how-can-i-get-the-selected-value-out-of-a-qcombobox
+            room = self.parent.ui.cmbA.currentText()
+            # delete the room in the text file
+            with open("Available_Room_A.txt", "r") as RoomADetails:
+                # use splitlines to remove \n from each line as it will cause an error in the index searching
+                # source: https://stackoverflow.com/questions/15233340/getting-rid-of-n-when-using-readlines
+                RoomA = RoomADetails.read().splitlines()
+            # get the index/line number from the RoomA so we could replace it
+            # source: https://stackoverflow.com/questions/176918/finding-the-index-of-an-item-in-a-list
+            index = RoomA.index(room)
+            # remove that index from the list of rooms
+            # Source: https://stackoverflow.com/questions/627435/how-to-remove-an-element-from-a-list-by-index
+            RoomA.pop(index)
+            
+            # we now have a list of rooms WITHOUT the reserved room
+            # we will write it back to the text file 
+            # Source: https://stackoverflow.com/questions/4719438/editing-specific-line-in-text-file-in-python
+            with open("Available_Room_A.txt", "w") as RoomADetails:
+                # write back the rooms into a new line for each room
+                # we use .join to join the strings and add a \n after each item
+                # Source: https://stackoverflow.com/questions/13730107/writelines-writes-lines-without-newline-just-fills-the-file/42757094
+                RoomADetails.write("\n".join(RoomA))
+                
+        elif self.parent.ui.rbB.isChecked():
+            room = self.parent.ui.cmbB.currentText()
+            with open("Available_Room_B.txt", "r") as RoomBDetails:
+                RoomB = RoomBDetails.read().splitlines()
+            index = RoomB.index(room)
+            RoomB.pop(index)
+            
+            with open("Available_Room_B.txt", "w") as RoomBDetails:
+                RoomBDetails.write("\n".join(RoomB))
+                
+        elif self.parent.ui.rbC.isChecked():
+            room = self.parent.ui.cmbC.currentText()
+            with open("Available_Room_C.txt", "r") as RoomCDetails:
+                RoomC = RoomCDetails.read().splitlines()
+            index = RoomC.index(room)
+            RoomC.pop(index)
+            
+            with open("Available_Room_C.txt", "w") as RoomCDetails:
+                RoomCDetails.write("\n".join(RoomC))
+
+        elif self.parent.ui.rbD.isChecked():
+            room = self.parent.ui.cmbD.currentText()
+            with open("Available_Room_D.txt", "r") as RoomDDetails:
+                RoomD = RoomDDetails.read().splitlines()
+            index = RoomD.index(room)
+            RoomD.pop(index)
+            
+            with open("Available_Room_D.txt", "w") as RoomDDetails:
+                RoomDDetails.write("\n".join(RoomD)) 
+                       
         self.hide()
     
     def exit(self):
@@ -324,7 +415,6 @@ class ReservationRecord(QMainWindow, Ui_HotelBooking):
         # convert the pyqt time to normal string
         time_in = time_in.toString()
         
-        print(date_in + " " + time_in)
         # set the customer name and the time and date on the reservation record UI      
         self.ui.customerName.setText(customer_name)
         self.ui.timeAndDate.setText(date_in + " " + time_in)
@@ -366,15 +456,21 @@ class RoomInfo(QMainWindow, Ui_MainWindow):
         ## Source: https://stackoverflow.com/questions/7771164/add-more-than-one-line-to-a-qtextedit-pyqt
         ## For Loop
         for inclusion in RoomA:
+            # replace the \n characters at the end of the inclusion string to display them properly
+            # source: https://www.kite.com/python/answers/how-to-remove-all-line-breaks-from-a-string-in-python
+            inclusion = inclusion.replace("\n", "")
             self.ui.roomAText.append(inclusion)
         
         for inclusion in RoomB:
+            inclusion = inclusion.replace("\n", "")
             self.ui.roomBText.append(inclusion)
             
         for inclusion in RoomC:
+            inclusion = inclusion.replace("\n", "")
             self.ui.roomCText.append(inclusion)        
         
         for inclusion in RoomD:
+            inclusion = inclusion.replace("\n", "")
             self.ui.roomDText.append(inclusion)        
         
         ## REMOVE TITLE BAR
@@ -406,9 +502,9 @@ class AdminSignIn(QMainWindow, Ui_MainWindow):
         self.ui.setupUi(self)
         self.parent=parent
         
-        ## REMOVE TITLE BAR
-        self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
-        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
+        # ## REMOVE TITLE BAR
+        # self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
+        # self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         
         ## BUTTON CLICKS
         self.ui.btnLogin.clicked.connect(self.login)
