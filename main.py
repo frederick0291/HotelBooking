@@ -195,6 +195,7 @@ class HotelBooking(QMainWindow):
         ########################################################################
         self.ui.buttonBox.accepted.connect(self.accept)
         self.ui.buttonBox.rejected.connect(self.reject)
+        self.ui.AddRoomBtn.clicked.connect(self.addRoom)
         ## ==> END ##        
 
     ## ==> APP FUNCTIONS
@@ -210,6 +211,123 @@ class HotelBooking(QMainWindow):
         self.CancelYesNo = CancelYesNo(parent=self)
         self.CancelYesNo.show()
         # self.close()
+        
+    # RESERVE MORE THAN ONE ROOM
+    def addRoom(self):
+        # Get the customer name
+        Name = self.ui.txtName.text()
+        
+        # PART 1: Get the  rooms that the user wants
+        if self.ui.rbA.isChecked():
+            # get the room name from the combobox
+            # Source: https://stackoverflow.com/questions/2056915/how-can-i-get-the-selected-value-out-of-a-qcombobox
+            room = self.ui.cmbA.currentText()
+            # delete the room in the text file
+            with open("Available_Room_A.txt", "r") as RoomADetails:
+                # use splitlines to remove \n from each line as it will cause an error in the index searching
+                # source: https://stackoverflow.com/questions/15233340/getting-rid-of-n-when-using-readlines
+                RoomA = RoomADetails.read().splitlines()
+            # get the index/line number from the RoomA so we could replace it
+            # source: https://stackoverflow.com/questions/176918/finding-the-index-of-an-item-in-a-list
+            index = RoomA.index(room)
+            # remove that index from the list of rooms
+            # Source: https://stackoverflow.com/questions/627435/how-to-remove-an-element-from-a-list-by-index
+            RoomA.pop(index)
+            
+            # we now have a list of rooms WITHOUT the reserved room
+            # we will write it back to the text file 
+            # Source: https://stackoverflow.com/questions/4719438/editing-specific-line-in-text-file-in-python
+            with open("Available_Room_A.txt", "w") as RoomADetails:
+                # write back the rooms into a new line for each room
+                # we use .join to join the strings and add a \n after each item
+                # Source: https://stackoverflow.com/questions/13730107/writelines-writes-lines-without-newline-just-fills-the-file/42757094
+                RoomADetails.write("\n".join(RoomA))
+                
+            # Store the rooms to reserve here first before we send it to the table 
+            with open("Reserved_Rooms.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "A" + "\n")
+            
+        if self.ui.rbB.isChecked():
+            room = self.ui.cmbB.currentText()
+            with open("Available_Room_B.txt", "r") as RoomBDetails:
+                RoomB = RoomBDetails.read().splitlines()
+            index = RoomB.index(room)
+            RoomB.pop(index)
+            
+            with open("Available_Room_B.txt", "w") as RoomBDetails:
+                RoomBDetails.write("\n".join(RoomB))
+                        
+            with open("Reserved_Rooms.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "B" + "\n")
+                
+        if self.ui.rbC.isChecked():
+            room = self.ui.cmbC.currentText()
+            with open("Available_Room_C.txt", "r") as RoomCDetails:
+                RoomC = RoomCDetails.read().splitlines()
+            index = RoomC.index(room)
+            RoomC.pop(index)
+            
+            with open("Available_Room_C.txt", "w") as RoomCDetails:
+                RoomCDetails.write("\n".join(RoomC))
+                
+            with open("Reserved_Rooms.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "C" + "\n")
+            
+        if self.ui.rbD.isChecked():
+            room = self.ui.cmbD.currentText()
+            with open("Available_Room_D.txt", "r") as RoomDDetails:
+                RoomD = RoomDDetails.read().splitlines()
+            index = RoomD.index(room)
+            RoomD.pop(index)
+            
+            with open("Available_Room_D.txt", "w") as RoomDDetails:
+                RoomDDetails.write("\n".join(RoomD)) 
+          
+            with open("Reserved_Rooms.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "D" + "\n")
+            
+        
+        # PART 2: Remove those rooms from the choices by reading the text file again
+        with open("Available_Room_A.txt", "r") as RoomADetails:
+            RoomA = RoomADetails.readlines()
+        with open("Available_Room_B.txt", "r") as RoomBDetails:
+            RoomB = RoomBDetails.readlines()
+        with open("Available_Room_C.txt", "r") as RoomCDetails:
+            RoomC = RoomCDetails.readlines()
+        with open("Available_Room_D.txt", "r") as RoomDDetails:
+            RoomD = RoomDDetails.readlines()        
+        
+        # CLEAN UP THE COMBO BOXES BEFORE WE ADD THE CHOICES AGAIN:
+        self.ui.cmbA.clear()
+        self.ui.cmbB.clear()
+        self.ui.cmbC.clear()
+        self.ui.cmbD.clear()
+        
+        ## SET THE AVAILABLE ROOMS TO EACH COMBO BOX
+        ## Source: https://stackoverflow.com/questions/35142276/how-can-i-add-item-data-to-qcombobox-from-qt-designer-ui-file
+        ## For Loop the room variables
+        for room in RoomA:
+            # remove the \n character in the "room" string to avoid display issues in the combo box
+            # source: https://www.kite.com/python/answers/how-to-remove-all-line-breaks-from-a-string-in-python
+            room = room.replace("\n", "")
+            self.ui.cmbA.addItem(room)
+        for room in RoomB:
+            room = room.replace("\n", "")
+            self.ui.cmbB.addItem(room)
+        for room in RoomC:
+            room = room.replace("\n", "")
+            self.ui.cmbC.addItem(room)    
+        for room in RoomD:
+            room = room.replace("\n", "")
+            self.ui.cmbD.addItem(room)     
+            
+        # UNCHECK THE ROOM SELECTION CHECK BOXES 
+        # SOURCE: https://www.geeksforgeeks.org/pyqt5-setchecked-method-for-check-box/
+        self.ui.rbA.setChecked(False)
+        self.ui.rbB.setChecked(False)
+        self.ui.rbC.setChecked(False)
+        self.ui.rbD.setChecked(False)
+        
 
     ## MOUSE PRESS EVENT - MOVING WINDOWS BY DRAGGING 
     def mousePressEvent(self, event):
@@ -341,7 +459,7 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
                 # Source: https://stackoverflow.com/questions/13730107/writelines-writes-lines-without-newline-just-fills-the-file/42757094
                 RoomADetails.write("\n".join(RoomA))
                 
-        elif self.parent.ui.rbB.isChecked():
+        if self.parent.ui.rbB.isChecked():
             room = self.parent.ui.cmbB.currentText()
             with open("Available_Room_B.txt", "r") as RoomBDetails:
                 RoomB = RoomBDetails.read().splitlines()
@@ -351,7 +469,7 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
             with open("Available_Room_B.txt", "w") as RoomBDetails:
                 RoomBDetails.write("\n".join(RoomB))
                 
-        elif self.parent.ui.rbC.isChecked():
+        if self.parent.ui.rbC.isChecked():
             room = self.parent.ui.cmbC.currentText()
             with open("Available_Room_C.txt", "r") as RoomCDetails:
                 RoomC = RoomCDetails.read().splitlines()
@@ -361,7 +479,7 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
             with open("Available_Room_C.txt", "w") as RoomCDetails:
                 RoomCDetails.write("\n".join(RoomC))
 
-        elif self.parent.ui.rbD.isChecked():
+        if self.parent.ui.rbD.isChecked():
             room = self.parent.ui.cmbD.currentText()
             with open("Available_Room_D.txt", "r") as RoomDDetails:
                 RoomD = RoomDDetails.read().splitlines()
@@ -535,6 +653,11 @@ class EditInventory(QMainWindow):
         QMainWindow.__init__(self)
         self.ui = Ui_EditInventory()
         self.ui.setupUi(self)
+        self.ui.tblCustomer.verticalHeader().setVisible(False)
+        self.ui.tblCustomer.setSelectionBehavior(QAbstractItemView.SelectRows)
+        self.updateCustomerTable()
+        
+        
         
         ## REMOVE TITLE BAR
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
@@ -543,8 +666,139 @@ class EditInventory(QMainWindow):
         # Button presses
         self.ui.btnBack.clicked.connect(self.back)
         self.ui.btnEditRoomInfo.clicked.connect(self.gotoEditRoomInfo)
+        self.ui.btnDelete.clicked.connect(self.delete)
+        self.ui.btnSave.clicked.connect(self.save)
+        self.ui.btnProfile.clicked.connect(self.viewProfile)
+        self.ui.btnUpdate.clicked.connect(self.update)
+        self.ui.btnSearch.clicked.connect(self.search)
+        self.ui.btnView.clicked.connect(self.viewAll)
+    
+    # update the customer table widget
+    # SOURCE: https://stackoverflow.com/questions/32506464/how-to-add-text-to-a-cell-of-a-tablewidget
+    def updateCustomerTable(self):
+        self.ui.tblCustomer.setColumnCount(4)
+        # Add headers to the columns
+        # SOURCE: https://stackoverflow.com/questions/37222081/pyqt-qtableview-set-horizontal-vertical-header-labels/37223212
+        self.ui.tblCustomer.setHorizontalHeaderLabels(["Customer ID", "Name", "Room #", "Room Type"])
+        # read reserved rooms text file to get the data to add to the table
+        with open("Reserved_Rooms.txt", "r") as reservedRooms:
+            rooms = reservedRooms.readlines()
+        
+        # each line of room has the details like the customer name room # and room type
+        for room in rooms:
+            room = room.replace("\n","")
+            # split each string line to each of the items (Customer Name, Room #, Room Type)
+            # split by the comma
+            # SOURCE: https://www.w3schools.com/python/ref_string_split.asp
+            room = room.split(",")
+            print(room)
+            # add a new row using the room details 
+            # SOURCE: https://stackoverflow.com/questions/24044421/how-to-add-a-row-in-a-tablewidget-pyqt
+            rowCount = self.ui.tblCustomer.rowCount()
+            custID = str(rowCount + 1)
+            name = room[0]
+            roomNum = room[1]
+            roomType = room[2]
+            self.ui.tblCustomer.insertRow(rowCount)
+            self.ui.tblCustomer.setItem(rowCount , 0, QTableWidgetItem(custID))
+            self.ui.tblCustomer.setItem(rowCount , 1, QTableWidgetItem(name))
+            self.ui.tblCustomer.setItem(rowCount , 2, QTableWidgetItem(roomNum))
+            self.ui.tblCustomer.setItem(rowCount , 3, QTableWidgetItem(roomType))
     
     # Button Functions
+    def search(self):
+        # Hide all rows
+        numRows = self.ui.tblCustomer.rowCount()
+        for row in range(numRows):
+            self.ui.tblCustomer.hideRow(row)
+            
+        # Unhide only rows that are going to match the filter
+        # Source: https://www.qtcentre.org/threads/43313-How-to-set-filter-option-in-QTableWidget
+        name = self.ui.txtSearch.text()
+        filterList = self.ui.tblCustomer.findItems(name, Qt.MatchContains)
+        for item in filterList:
+            self.ui.tblCustomer.showRow(item.row())
+            
+    def viewAll(self):
+        # Unhide all rows
+        numRows = self.ui.tblCustomer.rowCount()
+        for row in range(numRows):
+            self.ui.tblCustomer.showRow(row)
+            
+        # clean up the GUI
+        self.ui.txtSearch.setText("")
+            
+    def update(self):
+        # get our index from the viewProfile function
+        index = self.indexToEdit
+        
+        # get the data from the GUI
+        custID = self.ui.txtNo.text()
+        name = self.ui.txtNameP.text()
+        roomNum = self.ui.txtAddressP.text()
+        roomType = self.ui.txtContactP.text()
+        
+        # update the table row
+        self.ui.tblCustomer.setItem(index , 0, QTableWidgetItem(custID))
+        self.ui.tblCustomer.setItem(index , 1, QTableWidgetItem(name))
+        self.ui.tblCustomer.setItem(index , 2, QTableWidgetItem(roomNum))
+        self.ui.tblCustomer.setItem(index , 3, QTableWidgetItem(roomType))
+        
+        # clean up the update profie box
+        self.ui.txtNo.setText("")
+        self.ui.txtNameP.setText("")
+        self.ui.txtAddressP.setText("")
+        self.ui.txtContactP.setText("")
+    
+    def viewProfile(self):
+        # get the index of the item first
+        index = self.ui.tblCustomer.selectionModel().selectedRows()
+        index = index[0].row()
+
+        # gather the details
+        custID = str(index + 1)
+        custName = self.ui.tblCustomer.item(index, 1).text()
+        roomNum = self.ui.tblCustomer.item(index, 2).text()
+        roomType = self.ui.tblCustomer.item(index, 3).text()
+        
+        # update the GUI with the above details
+        self.ui.txtNo.setText(custID)
+        self.ui.txtNameP.setText(custName)
+        self.ui.txtAddressP.setText(roomNum)
+        self.ui.txtContactP.setText(roomType)
+        
+        # create a variable that will store our index since we need to access this when we click update
+        self.indexToEdit = index 
+        
+    def save(self):
+        # get the data first
+        rowCount = self.ui.tblCustomer.rowCount()
+        custID = str(rowCount + 1)
+        name = self.ui.txtIname.text()
+        roomNum = self.ui.txtIadd.text()
+        roomType = self.ui.txtIcp.text()
+        
+        # add new row then add the details
+        self.ui.tblCustomer.insertRow(rowCount)
+        self.ui.tblCustomer.setItem(rowCount , 0, QTableWidgetItem(custID))
+        self.ui.tblCustomer.setItem(rowCount , 1, QTableWidgetItem(name))
+        self.ui.tblCustomer.setItem(rowCount , 2, QTableWidgetItem(roomNum))
+        self.ui.tblCustomer.setItem(rowCount , 3, QTableWidgetItem(roomType))
+
+        # clean up the line edits 
+        self.ui.txtIname.setText("")
+        self.ui.txtIadd.setText("")
+        self.ui.txtIcp.setText("")
+        
+    def delete(self):
+        index = self.ui.tblCustomer.selectionModel().selectedRows()
+        index = index[0].row()
+        # get the index of the selected item 
+        # Source: https://doc.qt.io/qt-5/qmodelindex.html
+        # then delete the row
+        # Source: https://stackoverflow.com/questions/48121393/how-to-delete-multiple-rows-in-a-qtableview-widget
+        self.ui.tblCustomer.removeRow(index)
+    
     def back(self):
         # if we click back go and open up the main window again
         self.main = MainWindow()
