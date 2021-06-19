@@ -1932,7 +1932,7 @@
       </font>
      </property>
      <property name="text">
-      <string>ADDRESS :</string>
+      <string>ROOM #:</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="txtIadd">
@@ -1953,9 +1953,9 @@
     <widget class="QLineEdit" name="txtIcp">
      <property name="geometry">
       <rect>
-       <x>130</x>
+       <x>110</x>
        <y>100</y>
-       <width>301</width>
+       <width>321</width>
        <height>20</height>
       </rect>
      </property>
@@ -2433,7 +2433,7 @@
       <rect>
        <x>20</x>
        <y>100</y>
-       <width>111</width>
+       <width>91</width>
        <height>19</height>
       </rect>
      </property>
@@ -2484,7 +2484,7 @@
       </font>
      </property>
      <property name="text">
-      <string>CONTACT NO. :</string>
+      <string>ROOM TYPE:</string>
      </property>
     </widget>
    </widget>
@@ -4998,9 +4998,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>60</x>
+       <x>70</x>
        <y>70</y>
-       <width>281</width>
+       <width>271</width>
        <height>20</height>
       </rect>
      </property>
@@ -5507,7 +5507,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Address :</string>
+      <string>Room #</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="txtAddressP">
@@ -5516,9 +5516,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>80</x>
+       <x>70</x>
        <y>100</y>
-       <width>261</width>
+       <width>271</width>
        <height>20</height>
       </rect>
      </property>
@@ -5976,9 +5976,9 @@
      </property>
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>100</x>
        <y>130</y>
-       <width>201</width>
+       <width>241</width>
        <height>20</height>
       </rect>
      </property>
@@ -6485,7 +6485,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Contact Number :</string>
+      <string>Room Type:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_16">
@@ -7473,9 +7473,9 @@
    <widget class="QPushButton" name="btnDelete">
     <property name="geometry">
      <rect>
-      <x>720</x>
-      <y>500</y>
-      <width>71</width>
+      <x>270</x>
+      <y>510</y>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -7936,8 +7936,8 @@
    <widget class="QPushButton" name="btnProfile">
     <property name="geometry">
      <rect>
-      <x>580</x>
-      <y>500</y>
+      <x>90</x>
+      <y>510</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -8399,7 +8399,7 @@
    <widget class="QPushButton" name="btnEditRoomInfo">
     <property name="geometry">
      <rect>
-      <x>230</x>
+      <x>530</x>
       <y>510</y>
       <width>131</width>
       <height>31</height>
@@ -8862,9 +8862,9 @@
    <widget class="QPushButton" name="btnBack">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>700</x>
       <y>510</y>
-      <width>131</width>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
