@@ -15,8 +15,6 @@ from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont,
     QRadialGradient)
 from PyQt5.QtWidgets import *
 
-import resource_rc
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if MainWindow.objectName():

@@ -1,12 +1,11 @@
-
 import sys
-import platform
 import PyQt5
-from PyQt5 import QtCore, QtGui, QtWidgets, uic
-from PyQt5.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime, QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QEvent)
-from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
+from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime,
+                          QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QEvent)
+from PyQt5.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase,
+                         QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient)
 from PyQt5.QtWidgets import *
-# from PyQt5.uic import uiparser
 
 ## ==> MAIN WINDOW
 from ui_MainWindow import Ui_MainWindow
@@ -51,8 +50,6 @@ if hasattr(QtCore.Qt, 'AA_EnableHighDpiScaling'):
 if hasattr(QtCore.Qt, 'AA_UseHighDpiPixmaps'):
     PyQt5.QtWidgets.QApplication.setAttribute(QtCore.Qt.AA_UseHighDpiPixmaps, True)
 
-
-## ==> GLOBALS
 
 # YOUR MAIN APPLICATION
 class MainWindow(QMainWindow):
@@ -797,6 +794,19 @@ class EditInventory(QMainWindow):
         # Source: https://doc.qt.io/qt-5/qmodelindex.html
         # then delete the row
         # Source: https://stackoverflow.com/questions/48121393/how-to-delete-multiple-rows-in-a-qtableview-widget
+        roomNum = self.ui.tblCustomer.item(index, 2).text()
+        if roomNum.startswith("Room A"):
+            with open("Available_Room_A.txt", "a") as roomtext:
+                roomtext.write("\n" + roomNum)
+        if roomNum.startswith("Room B"):
+            with open("Available_Room_B.txt", "a") as roomtext:
+                roomtext.write("\n" + roomNum)                
+        if roomNum.startswith("Room C"):
+            with open("Available_Room_C.txt", "a") as roomtext:
+                roomtext.write("\n" + roomNum)
+        if roomNum.startswith("Room D"):
+            with open("Available_Room_D.txt", "a") as roomtext:
+                roomtext.write("\n" + roomNum)                            
         self.ui.tblCustomer.removeRow(index)
     
     def back(self):
@@ -866,7 +876,6 @@ class EditRoomInfo(QMainWindow, Ui_EditInventory):
         self.close()  
     
     def saveInfo(self):
-        # TODO: ADD LOGIC TO OVERWRITE TEXT FILE HERE
         # Source: https://stackoverflow.com/questions/2424000/read-and-overwrite-a-file-in-python
         # Get the text from the text boxes
         # Source: https://stackoverflow.com/questions/24035660/how-to-read-from-qtextedit-in-python
