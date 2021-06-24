@@ -244,6 +244,10 @@ class HotelBooking(QMainWindow):
             with open("Reserved_Rooms.txt", "a") as ReservedRooms:
                 ReservedRooms.write(Name + "," + room + "," + "A" + "\n")
             
+            with open("Transaction_History.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "A" + "\n")       
+                         
+            
         if self.ui.rbB.isChecked():
             room = self.ui.cmbB.currentText()
             with open("Available_Room_B.txt", "r") as RoomBDetails:
@@ -257,6 +261,9 @@ class HotelBooking(QMainWindow):
             with open("Reserved_Rooms.txt", "a") as ReservedRooms:
                 ReservedRooms.write(Name + "," + room + "," + "B" + "\n")
                 
+            with open("Transaction_History.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "B" + "\n")       
+                         
         if self.ui.rbC.isChecked():
             room = self.ui.cmbC.currentText()
             with open("Available_Room_C.txt", "r") as RoomCDetails:
@@ -270,6 +277,10 @@ class HotelBooking(QMainWindow):
             with open("Reserved_Rooms.txt", "a") as ReservedRooms:
                 ReservedRooms.write(Name + "," + room + "," + "C" + "\n")
             
+            with open("Transaction_History.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "C" + "\n")       
+                         
+            
         if self.ui.rbD.isChecked():
             room = self.ui.cmbD.currentText()
             with open("Available_Room_D.txt", "r") as RoomDDetails:
@@ -282,6 +293,10 @@ class HotelBooking(QMainWindow):
           
             with open("Reserved_Rooms.txt", "a") as ReservedRooms:
                 ReservedRooms.write(Name + "," + room + "," + "D" + "\n")
+                
+            with open("Transaction_History.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "D" + "\n")       
+                         
             
         
         # PART 2: Remove those rooms from the choices by reading the text file again
@@ -427,7 +442,7 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
     def cont(self):
         self.ReservationRecord = ReservationRecord(parent=self.parent)
         self.ReservationRecord.show()
-        
+        Name = self.parent.ui.txtName.text()
         # RESERVE THE ROOM AND REMOVE IT FROM THE CHOICES
         # First we check which radio button was checked
         # Source: https://www.geeksforgeeks.org/pyqt5-find-if-radio-button-is-checked/
@@ -455,6 +470,13 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
                 # we use .join to join the strings and add a \n after each item
                 # Source: https://stackoverflow.com/questions/13730107/writelines-writes-lines-without-newline-just-fills-the-file/42757094
                 RoomADetails.write("\n".join(RoomA))
+            
+            with open("Reserved_Rooms.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "A" + "\n")
+            
+            with open("Transaction_History.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "A" + "\n")  
+                         
                 
         if self.parent.ui.rbB.isChecked():
             room = self.parent.ui.cmbB.currentText()
@@ -466,6 +488,13 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
             with open("Available_Room_B.txt", "w") as RoomBDetails:
                 RoomBDetails.write("\n".join(RoomB))
                 
+            with open("Reserved_Rooms.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "B" + "\n")
+            
+            with open("Transaction_History.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "B" + "\n")     
+                       
+                         
         if self.parent.ui.rbC.isChecked():
             room = self.parent.ui.cmbC.currentText()
             with open("Available_Room_C.txt", "r") as RoomCDetails:
@@ -475,7 +504,13 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
             
             with open("Available_Room_C.txt", "w") as RoomCDetails:
                 RoomCDetails.write("\n".join(RoomC))
-
+                
+            with open("Reserved_Rooms.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "C" + "\n")
+            
+            with open("Transaction_History.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "C" + "\n")     
+                
         if self.parent.ui.rbD.isChecked():
             room = self.parent.ui.cmbD.currentText()
             with open("Available_Room_D.txt", "r") as RoomDDetails:
@@ -485,6 +520,12 @@ class PaymentMethod(QMainWindow, Ui_HotelBooking):
             
             with open("Available_Room_D.txt", "w") as RoomDDetails:
                 RoomDDetails.write("\n".join(RoomD)) 
+            
+            with open("Reserved_Rooms.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "D" + "\n")
+            
+            with open("Transaction_History.txt", "a") as ReservedRooms:
+                ReservedRooms.write(Name + "," + room + "," + "D" + "\n")     
                        
         self.hide()
     
@@ -669,6 +710,36 @@ class EditInventory(QMainWindow):
         self.ui.btnUpdate.clicked.connect(self.update)
         self.ui.btnSearch.clicked.connect(self.search)
         self.ui.btnView.clicked.connect(self.viewAll)
+        self.ui.btnTransactionHx.clicked.connect(self.viewHistory)
+    
+    def viewHistory(self):
+        self.ui.tblCustomer.setColumnCount(4)
+        # Add headers to the columns
+        # SOURCE: https://stackoverflow.com/questions/37222081/pyqt-qtableview-set-horizontal-vertical-header-labels/37223212
+        self.ui.tblCustomer.setHorizontalHeaderLabels(["Customer ID", "Name", "Room #", "Room Type"])
+        # read reserved rooms text file to get the data to add to the table
+        with open("Transaction_History.txt", "r") as reservedRooms:
+            rooms = reservedRooms.readlines()
+        
+        # each line of room has the details like the customer name room # and room type
+        for room in rooms:
+            room = room.replace("\n","")
+            # split each string line to each of the items (Customer Name, Room #, Room Type)
+            # split by the comma
+            # SOURCE: https://www.w3schools.com/python/ref_string_split.asp
+            room = room.split(",")
+            # add a new row using the room details 
+            # SOURCE: https://stackoverflow.com/questions/24044421/how-to-add-a-row-in-a-tablewidget-pyqt
+            rowCount = self.ui.tblCustomer.rowCount()
+            custID = str(rowCount + 1)
+            name = room[0]
+            roomNum = room[1]
+            roomType = room[2]
+            self.ui.tblCustomer.insertRow(rowCount)
+            self.ui.tblCustomer.setItem(rowCount , 0, QTableWidgetItem(custID))
+            self.ui.tblCustomer.setItem(rowCount , 1, QTableWidgetItem(name))
+            self.ui.tblCustomer.setItem(rowCount , 2, QTableWidgetItem(roomNum))
+            self.ui.tblCustomer.setItem(rowCount , 3, QTableWidgetItem(roomType))
     
     # update the customer table widget
     # SOURCE: https://stackoverflow.com/questions/32506464/how-to-add-text-to-a-cell-of-a-tablewidget
